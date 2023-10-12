@@ -24,6 +24,16 @@ io.on("connection", (socket) => {
   console.log("connection is established");
   socket.on("join", (userName) => {
     socket.userName = userName;
+    chatModel
+      .find()
+      .sort({ timestamp: 1 })
+      .limit(50)
+      .then((messages) => {
+        socket.emit("load_messages", messages);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   });
   socket.on("new_message", (message) => {
     let userMsg = {
