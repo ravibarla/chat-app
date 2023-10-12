@@ -34,6 +34,13 @@
         messageList.appendChild(messageElement);
         messageInput.value = "";
       });
+
+      //listen to the broadcast message and add it to the list
+      socket.on("broadcast_message", (message) => {
+        const messageElemets = document.createElement("div");
+        messageElemets.innerText = message;
+        messageList.appendChild(messageElemets);
+      });
     </script>
   </body>
 </html>
