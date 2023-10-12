@@ -18,6 +18,9 @@
     <script>
       //socket code in js
       const socket = io.connect("http://localhost:3000");
+      const userName = prompt("please enter your name:");
+      //emit the username to the server
+      socket.emit("join", userName);
       //get the elements
       const messageInput = document.getElementById("message-input");
       const messageList = document.getElementById("message-list");
@@ -30,15 +33,15 @@
         }
         //add message to the list
         const messageElement = document.createElement("div");
-        messageElement.innerText = message;
+        messageElement.innerText = userName + " : " + message;
         messageList.appendChild(messageElement);
         messageInput.value = "";
       });
 
       //listen to the broadcast message and add it to the list
-      socket.on("broadcast_message", (message) => {
+      socket.on("broadcast_message", (userMsg) => {
         const messageElemets = document.createElement("div");
-        messageElemets.innerText = message;
+        messageElemets.innerText = userMsg.userName + " : " + userMsg.message;
         messageList.appendChild(messageElemets);
       });
     </script>
